@@ -17,11 +17,11 @@ export function ModernTemplate({ data, customSections, sectionOrder }: TemplateP
         return null;
       case 'experience':
         return data.experience && data.experience.length > 0 ? (
-          <div className="mb-8" key="experience">
+          <div className="mb-8 resume-section" key="experience">
             <h2 className={headerStyle}>Work Experience</h2>
             <div className="space-y-4">
               {data.experience.map((exp) => (
-                <div key={exp.id}>
+                <div key={exp.id} className="resume-item">
                   <div className="flex justify-between items-start mb-1">
                     <div>
                       <h3 className="font-semibold text-gray-900">{renderFormattedText(exp.position)}</h3>
@@ -45,11 +45,11 @@ export function ModernTemplate({ data, customSections, sectionOrder }: TemplateP
 
       case 'education':
         return data.education && data.education.length > 0 ? (
-          <div className="mb-8" key="education">
+          <div className="mb-8 resume-section" key="education">
             <h2 className={headerStyle}>Education</h2>
             <div className="space-y-3">
               {data.education.map((edu) => (
-                <div key={edu.id} className="flex justify-between items-start">
+                <div key={edu.id} className="flex justify-between items-start resume-item">
                   <div>
                     <h3 className="font-semibold text-gray-900">
                       {renderFormattedText(edu.degree)} in {renderFormattedText(edu.field)}
@@ -69,7 +69,7 @@ export function ModernTemplate({ data, customSections, sectionOrder }: TemplateP
 
       case 'skills':
         return data.skills && data.skills.length > 0 ? (
-          <div className="mb-8" key="skills">
+          <div className="mb-8 resume-section" key="skills">
             <h2 className={headerStyle}>Skills</h2>
             <div className="flex flex-wrap gap-2">
               {data.skills.filter(s => s).map((skill, index) => (
@@ -83,11 +83,11 @@ export function ModernTemplate({ data, customSections, sectionOrder }: TemplateP
 
       case 'projects':
         return data.projects && data.projects.length > 0 ? (
-          <div className="mb-8" key="projects">
+          <div className="mb-8 resume-section" key="projects">
             <h2 className={headerStyle}>Projects</h2>
             <div className="space-y-3">
               {data.projects.map((project) => (
-                <div key={project.id}>
+                <div key={project.id} className="resume-item">
                   <h3 className="font-semibold text-gray-900">{renderFormattedText(project.name)}</h3>
                   <div className="text-gray-700 text-sm mt-1">
                     {renderFormattedText(project.description)}
@@ -113,7 +113,7 @@ export function ModernTemplate({ data, customSections, sectionOrder }: TemplateP
         const customSection = customSections.find(s => s.id === sectionId);
         if (customSection) {
           return (
-            <div className="mb-8" key={customSection.id}>
+            <div className="mb-8 resume-section" key={customSection.id}>
               <h2 className={headerStyle}>{customSection.title}</h2>
               {customSection.content && (
                 <div className="text-gray-700 leading-relaxed mb-3">
@@ -123,7 +123,7 @@ export function ModernTemplate({ data, customSections, sectionOrder }: TemplateP
               {customSection.items && customSection.items.length > 0 && (
                 <div className="space-y-3">
                   {customSection.items.map((item) => (
-                    <div key={item.id}>
+                    <div key={item.id} className="resume-item">
                       <div className="flex justify-between items-start mb-1">
                         <div>
                           <h3 className="font-semibold text-gray-900">{renderFormattedText(item.title)}</h3>
@@ -183,7 +183,7 @@ export function ModernTemplate({ data, customSections, sectionOrder }: TemplateP
       </div>
 
       {data.personalInfo?.summary && (
-        <div className="mb-8">
+        <div className="mb-8 resume-section">
           <h2 className={headerStyle}>Professional Summary</h2>
           <div className="text-gray-700 leading-relaxed">
             {renderFormattedText(data.personalInfo.summary)}

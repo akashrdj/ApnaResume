@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
-import { Bold, Italic, Underline, Type, Palette } from 'lucide-react';
+import { useState, useRef } from 'react';
 
 export interface FormattedText {
   text: string;
@@ -94,99 +93,6 @@ export default function RichTextEditor({ value, onChange, placeholder, className
   if (multiline) {
     return (
       <div className={className}>
-        <div className="flex items-center gap-1 mb-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
-          <button
-            type="button"
-            onClick={() => applyFormatting('bold', value)}
-            disabled={!hasSelection}
-            className={`p-2 rounded hover:bg-gray-200 transition disabled:opacity-30 disabled:cursor-not-allowed ${formatting.bold ? 'bg-gray-300' : ''}`}
-            title="Bold"
-          >
-            <Bold className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={() => applyFormatting('italic', value)}
-            disabled={!hasSelection}
-            className={`p-2 rounded hover:bg-gray-200 transition disabled:opacity-30 disabled:cursor-not-allowed ${formatting.italic ? 'bg-gray-300' : ''}`}
-            title="Italic"
-          >
-            <Italic className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={() => applyFormatting('underline', value)}
-            disabled={!hasSelection}
-            className={`p-2 rounded hover:bg-gray-200 transition disabled:opacity-30 disabled:cursor-not-allowed ${formatting.underline ? 'bg-gray-300' : ''}`}
-            title="Underline"
-          >
-            <Underline className="w-4 h-4" />
-          </button>
-
-          <div className="w-px h-6 bg-gray-300 mx-1" />
-
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setShowFontSize(!showFontSize)}
-              disabled={!hasSelection}
-              className="p-2 rounded hover:bg-gray-200 transition disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1"
-              title="Font Size"
-            >
-              <Type className="w-4 h-4" />
-              <span className="text-xs">{formatting.fontSize}</span>
-            </button>
-            {showFontSize && hasSelection && (
-              <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-10 grid grid-cols-5 gap-1">
-                {fontSizes.map(size => (
-                  <button
-                    key={size}
-                    type="button"
-                    onClick={() => {
-                      applyFormatting('fontSize', size);
-                      setShowFontSize(false);
-                    }}
-                    className="px-2 py-1 text-xs hover:bg-blue-100 rounded"
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setShowColorPicker(!showColorPicker)}
-              disabled={!hasSelection}
-              className="p-2 rounded hover:bg-gray-200 transition disabled:opacity-30 disabled:cursor-not-allowed"
-              title="Text Color"
-            >
-              <Palette className="w-4 h-4" />
-            </button>
-            {showColorPicker && hasSelection && (
-              <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 z-10">
-                <div className="grid grid-cols-5 gap-2">
-                  {colors.map(color => (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() => {
-                        applyFormatting('color', color);
-                        setShowColorPicker(false);
-                      }}
-                      className="w-8 h-8 rounded border-2 border-gray-300 hover:border-blue-500 transition"
-                      style={{ backgroundColor: color }}
-                      title={color}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
         <textarea
           ref={textareaRef}
           value={value}
@@ -219,8 +125,9 @@ export default function RichTextEditor({ value, onChange, placeholder, className
   );
 }
 
-export function renderFormattedText(text: string): JSX.Element {
-  const htmlString = text
+export function renderFormattedText(text: string | null | undefined): JSX.Element {
+  const safe = text ?? '';
+  const htmlString = safe
     .replace(/<b>(.*?)<\/b>/g, '<strong>$1</strong>')
     .replace(/<i>(.*?)<\/i>/g, '<em>$1</em>')
     .replace(/<u>(.*?)<\/u>/g, '<span style="text-decoration: underline">$1</span>');

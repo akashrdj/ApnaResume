@@ -2,15 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Parse overlay fade-in animation */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+/* AI Scan — blue shimmer pulse over PDF panel */
+@keyframes shimmer-scan {
+  0%   { background-position: -200% center; opacity: 0.55; }
+  50%  { background-position: 0% center;    opacity: 0.75; }
+  100% { background-position: 200% center;  opacity: 0.55; }
+}
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    105deg,
+    transparent 25%,
+    rgba(59, 130, 246, 0.18) 40%,
+    rgba(99, 179, 255, 0.38) 50%,
+    rgba(59, 130, 246, 0.18) 60%,
+    transparent 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer-scan 1.8s ease-in-out infinite;
+}
+
+/* AI panel loading bar */
+@keyframes loading-bar {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+.ai-loading-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.ai-loading-bar::after {
+  content: '';
+  display: block;
+  width: 25%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #8b5cf6, #3b82f6, transparent);
+  animation: loading-bar 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 @media print {
   @page {
-    size: letter;
-    margin: 0;
+    size: A4;
+    margin: 15mm 18mm;
   }
 
   body {
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
+  }
+
+  /* Reset editor zoom so the template always prints at true 100% */
+  [style*="zoom"] {
+    zoom: 100% !important;
   }
 
   .print\:hidden {
@@ -43,5 +101,28 @@
 
   .print\:overflow-visible {
     overflow: visible !important;
+  }
+
+  .print\:max-h-none {
+    max-height: none !important;
+  }
+
+  /* Remove fixed A4 height box — let content naturally flow across pages */
+  .resume-page-box {
+    min-height: 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+  }
+
+  /* Section headings must not be orphaned at the bottom of a page */
+  .resume-section > h2 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Each individual entry (experience, education, project) stays intact */
+  .resume-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }
