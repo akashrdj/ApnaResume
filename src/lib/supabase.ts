@@ -15,6 +15,9 @@ export interface Resume {
   title: string;
   template_id: string;
   data: ResumeData;
+  section_order: string[];
+  custom_sections: CustomSection[];
+  formatting_options: FormattingOptions;
   created_at: string;
   updated_at: string;
 }
@@ -32,6 +35,28 @@ export interface ResumeData {
   education?: Education[];
   skills?: string[];
   projects?: Project[];
+}
+
+export interface CustomSection {
+  id: string;
+  title: string;
+  content: string;
+  items?: CustomSectionItem[];
+}
+
+export interface CustomSectionItem {
+  id: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  date?: string;
+}
+
+export interface FormattingOptions {
+  fontFamily?: string;
+  defaultFontSize?: number;
+  headingColor?: string;
+  textColor?: string;
 }
 
 export interface WorkExperience {

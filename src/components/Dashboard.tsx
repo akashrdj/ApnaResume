@@ -53,7 +53,10 @@ export default function Dashboard() {
               education: [],
               skills: [],
               projects: []
-            }
+            },
+            section_order: ['personal', 'experience', 'education', 'skills', 'projects'],
+            custom_sections: [],
+            formatting_options: {}
           }
         ])
         .select()
