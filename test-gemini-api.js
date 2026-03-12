@@ -8,7 +8,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Test configuration
-const API_KEY = process.env.VITE_GEMINI_API_KEY || 'AIzaSyBAEE1ikznZx1Q-d18izyB9_e9ogOpkFoE'; // Your actual key from .env
+const API_KEY = process.env.VITE_GEMINI_API_KEY || ; // Your actual key from .env
 
 // Models to test - March 2026 Free Tier (in priority order)
 const MODELS_TO_TEST = [
